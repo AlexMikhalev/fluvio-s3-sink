@@ -4,14 +4,7 @@ use config::S3Config;
 mod sink;
 use sink::S3Sink;
 
-use opendal::services::S3;
-use opendal::Operator;
-use opendal::layers::LoggingLayer;
-// use opendal::Result;
-
 use fluvio_connector_common::{connector, consumer::ConsumerStream, Result};
-use fluvio_connector_common::Sink;
-use fluvio::consumer::Record;
 use futures::SinkExt;
 
 #[connector(sink)]

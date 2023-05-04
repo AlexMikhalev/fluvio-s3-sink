@@ -1,5 +1,4 @@
 use anyhow::Result;
-use anyhow::Context;
 use async_trait::async_trait;
 
 use fluvio::consumer::Record;
@@ -10,6 +9,10 @@ use fluvio_connector_common::{
 };
 
 use crate::config::S3Config;
+
+use opendal::services::S3;
+use opendal::Operator;
+use opendal::layers::LoggingLayer;
 
 #[derive(Debug)]
 pub(crate) struct S3Sink {
@@ -27,7 +30,7 @@ impl S3Sink {
         let secret_access_key = &config.secret_access_key.resolve()?;
 
         Ok(Self {
-            region: region.clone(),
+            region: region.clone().unwrap_or("us-east-1".to_string()),
             bucket: bucket.clone(),
             access_key_id: access_key_id.to_string(),
             secret_access_key: secret_access_key.to_string()})
@@ -39,23 +42,22 @@ impl Sink<Record> for S3Sink {
     async fn connect(self, _offset: Option<Offset>) -> Result<LocalBoxSink<Record>> {
         info!("Connecting to S3");
         let mut builder = S3::default();
-        builder.region(self.region);
-        builder.bucket(self.bucket);
-        builder.access_key_id(self.access_key_id);
-        builder.secret_access_key(self.secret_access_key);
+        builder.region(&self.region);
+        builder.bucket(&self.bucket);
+        builder.access_key_id(&self.access_key_id);
+        builder.secret_access_key(&self.secret_access_key);
         // Init an operator
         let op = Operator::new(builder)?
         // Init with logging layer enabled.
         .layer(LoggingLayer::default())
         .finish();
-        let unfold = futures::sink::unfold(con, |mut con, record: Record| async move {
+        let unfold = futures::sink::unfold(op, |mut op, record: Record| async move {
             let key = if let Some(key) = record.key() {
                 String::from_utf8_lossy(key).to_string()
             }else{
                 record.timestamp().to_string()
             };
-            let value = String::from_utf8_lossy(record.value());
-            op.write(key, value).await?;
+            op.write(&key, record.value()).await?;
             Ok::<_, anyhow::Error>(op)
         });
         Ok(Box::pin(unfold))
