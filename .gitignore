@@ -1,3 +1,4 @@
+secrets.txt
 target/
 **/*.rs.bk
 .DS_Store
