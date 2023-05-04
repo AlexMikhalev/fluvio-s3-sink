@@ -1,10 +1,10 @@
-use anyhow::Result;
+// use anyhow::Result;
 use async_trait::async_trait;
 
 use fluvio::consumer::Record;
 use fluvio::Offset;
 use fluvio_connector_common::{
-    tracing::{debug, error, info},
+    tracing::info, Result,
     LocalBoxSink, Sink,
 };
 
