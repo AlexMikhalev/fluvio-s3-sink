@@ -56,7 +56,7 @@ impl Sink<Record> for S3Sink {
             };
             let value = String::from_utf8_lossy(record.value());
             op.write(key, value).await?;
-            Ok::<_, anyhow::Error>(con)
+            Ok::<_, anyhow::Error>(op)
         });
         Ok(Box::pin(unfold))
     }
