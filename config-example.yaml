@@ -1,0 +1,14 @@
+meta:
+  version: 0.1.0
+  name: my-s3-sink-test-connector
+  type: s3-sink-sink
+  topic: hackernews
+s3:
+  region: "eu-west-2"
+  bucket: "alex-m-test"
+  access_key_id:
+    secret:
+      name: "AWS_ACCESS_KEY_ID"
+  secret_access_key:
+    secret:
+      name: "AWS_SECRET_ACCESS_KEY"

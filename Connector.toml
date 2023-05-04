@@ -1,0 +1,41 @@
+[package]
+name = "s3-sink"
+group = "am"
+version = "0.1.0"
+apiVersion = "0.1.0"
+fluvio = "0.10.0"
+description = ""
+license = "Apache-2.0"
+visibility = "private"
+
+[direction]
+ dest = true 
+
+[deployment]
+binary = "s3-sink"
+
+[custom]
+name = "redis"
+required = ["bucket","access_key_id","secret_access_key"]
+
+
+[custom.properties.bucket]
+title = "Bucket to write into"
+description = "Bucket to write into"
+type = "string"
+
+[custom.properties.access_key_id]
+title = "Access key for the bucket"
+description = "Access key for the bucket"
+type = "string"
+
+[custom.properties.secret_access_key]
+title = "Secret Key for the bucket"
+description = "Secret key for the bucket"
+type = "string"
+
+[secret.AWS_ACCESS_KEY_ID]
+type = "env"
+
+[secret.AWS_SECRET_ACCESS_KEY]
+type = "env"
