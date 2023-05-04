@@ -7,7 +7,6 @@ use fluvio_connector_common::{
     tracing::info, Result,
     LocalBoxSink, Sink,
 };
-
 use crate::config::S3Config;
 
 use opendal::services::S3;
@@ -52,13 +51,13 @@ impl Sink<Record> for S3Sink {
         // Init with logging layer enabled.
         .layer(LoggingLayer::default())
         .finish();
-        let unfold = futures::sink::unfold(op, |mut op, record: Record| async move {
+        let unfold = futures::sink::unfold(op, |op, record: Record| async move {
             let key = if let Some(key) = record.key() {
                 String::from_utf8_lossy(key).to_string()
             }else{
                 record.timestamp().to_string()
             };
-            op.write(&key, record.value()).await?;
+            op.write(&key, record.value().to_owned()).await?;
             Ok::<_, anyhow::Error>(op)
         });
         Ok(Box::pin(unfold))

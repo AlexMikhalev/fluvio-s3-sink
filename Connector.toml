@@ -15,7 +15,7 @@ visibility = "private"
 binary = "s3-sink"
 
 [custom]
-name = "redis"
+name = "s3"
 required = ["bucket","access_key_id","secret_access_key"]
 
 
