@@ -14,6 +14,7 @@ use opendal::services::S3;
 use opendal::Operator;
 use opendal::layers::LoggingLayer;
 
+
 #[derive(Debug)]
 pub(crate) struct S3Sink {
     pub(crate) region: String,

@@ -15,4 +15,5 @@ futures = { version = "0.3", default-features = false }
 serde_json = { version = "1", default-features = false }
 url = { version = "2.3", default-features = false, features = ["serde"] }
 itertools = { version = "0.10", default-features = false }    
-opendal = {version="0.33.2", features=["services-s3"],default-features = false}
+# opendal = {version="0.33.2", features=["services-s3"],default-features = false}
+opendal = {version="0.33.2"}
