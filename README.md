@@ -43,14 +43,19 @@ change topic in config-example.yaml
 ```
 meta:
   version: 0.1.0
-  name: my-redis-connector-sink-test-connector
-  type: redis-connector-sink-sink
+  name: my-s3-sink-test-connector
+  type: s3-sink-sink
   topic: hackernews
-redis:
-  url:
+s3:
+  region: "eu-west-2"
+  bucket: "alex-m-test"
+  access_key_id:
     secret:
-      name: "REDIS_URL"
+      name: "AWS_ACCESS_KEY_ID"
+  secret_access_key:
+    secret:
+      name: "AWS_SECRET_ACCESS_KEY"
 ```
 if you want to listen to the topic differently to hackers news 
 
-Follow up [quickstart](https://www.fluvio.io/connectors/cdk/overview/) to build you own connector 
+Follow up [quickstart](https://www.fluvio.io/connectors/cdk/overview/) to build your own connector 
