@@ -4,8 +4,7 @@ use config::S3Config;
 mod sink;
 use sink::S3Sink;
 
-
-use fluvio_connector_common::{connector, Sink,Result, consumer::ConsumerStream};
+use fluvio_connector_common::{connector, consumer::ConsumerStream, Result, Sink};
 use futures::SinkExt;
 
 #[connector(sink)]
@@ -19,4 +18,3 @@ async fn start(config: S3Config, mut stream: impl ConsumerStream) -> Result<()> 
     }
     Ok(())
 }
-
